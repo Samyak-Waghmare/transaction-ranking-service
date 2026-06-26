@@ -1,0 +1,27 @@
+# Render.com Blueprint — deploys the backend API and the static frontend in
+# one go. In Render: New + > "Blueprint", point it at this repo, and click
+# "Apply". After the backend is live, open the frontend URL and paste the
+# backend URL into the "Backend API base URL" box (it is remembered).
+#
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  # ---- Backend API (FastAPI + Uvicorn) ----
+  - type: web
+    name: transaction-ranking-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.4
+
+  # ---- Frontend (static site, no build step) ----
+  - type: web
+    name: transaction-ranking-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: ""
+    staticPublishPath: .
