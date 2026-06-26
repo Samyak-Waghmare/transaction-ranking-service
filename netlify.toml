@@ -1,0 +1,6 @@
+# Netlify config for deploying the static frontend straight from this repo.
+# Connect the repo in Netlify and it will publish the ./frontend folder.
+# There is no build step — it is plain HTML/CSS/JS.
+[build]
+  publish = "frontend"
+  command = ""
