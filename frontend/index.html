@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transaction &amp; Ranking — Live Demo</title>
+  <meta name="description" content="Frontend demo for the Transaction & Ranking backend service." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div>
+        <h1>Transaction &amp; Ranking</h1>
+        <p class="tagline">Live demo · validation · idempotency · concurrency · fair ranking</p>
+      </div>
+    </div>
+    <div class="conn">
+      <label for="apiBase">Backend API base URL</label>
+      <div class="conn-row">
+        <input id="apiBase" type="url" placeholder="https://your-backend.onrender.com" autocomplete="off" />
+        <button id="saveApi" class="btn">Connect</button>
+        <span id="status" class="status status--unknown" title="Connection status">●&nbsp;not connected</span>
+      </div>
+      <p class="hint">Paste the deployed backend URL (or <code>http://127.0.0.1:8000</code> when running locally), then click Connect.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Demo controls -->
+    <section class="card span-2">
+      <div class="card-head">
+        <h2>Demo controls</h2>
+        <span class="muted">Quickly populate or clear the in-memory store.</span>
+      </div>
+      <div class="row gap">
+        <button id="seedBtn" class="btn btn--ghost">Seed sample data</button>
+        <button id="resetBtn" class="btn btn--danger-ghost">Reset all data</button>
+        <button id="refreshAllBtn" class="btn btn--ghost">Refresh everything</button>
+      </div>
+    </section>
+
+    <!-- Submit transaction -->
+    <section class="card">
+      <div class="card-head"><h2>1 · Submit a transaction</h2></div>
+      <form id="txForm" class="form" autocomplete="off">
+        <label>User ID
+          <input name="userId" required placeholder="alice" value="alice" />
+        </label>
+        <label>Amount
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="125.50" value="125.50" />
+        </label>
+        <label>Type
+          <select name="type">
+            <option value="purchase">purchase</option>
+            <option value="referral">referral</option>
+            <option value="bonus">bonus</option>
+            <option value="review">review</option>
+            <option value="task">task</option>
+            <option value="generic">generic</option>
+          </select>
+        </label>
+        <label>Transaction ID <span class="muted">(idempotency key)</span>
+          <div class="row gap-sm">
+            <input name="transactionId" id="txId" placeholder="auto-generated if blank" />
+            <button type="button" id="genId" class="btn btn--sm">New ID</button>
+          </div>
+        </label>
+        <div class="row gap">
+          <button type="submit" class="btn">Submit</button>
+          <button type="button" id="resendBtn" class="btn btn--ghost" title="Re-send with the same transaction ID to prove idempotency">
+            Send again (test duplicate)
+          </button>
+        </div>
+      </form>
+      <pre id="txOut" class="out" aria-live="polite"></pre>
+    </section>
+
+    <!-- Summary -->
+    <section class="card">
+      <div class="card-head"><h2>2 · User summary</h2></div>
+      <form id="sumForm" class="form" autocomplete="off">
+        <label>User ID
+          <input name="userId" required placeholder="alice" value="alice" />
+        </label>
+        <button type="submit" class="btn">Get summary</button>
+      </form>
+      <div id="sumOut" class="summary"></div>
+    </section>
+
+    <!-- Ranking -->
+    <section class="card span-2">
+      <div class="card-head">
+        <h2>3 · Ranking (leaderboard)</h2>
+        <div class="row gap-sm">
+          <span id="weights" class="muted"></span>
+          <button id="rankBtn" class="btn btn--sm">Refresh ranking</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="rankTable" class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Score</th>
+              <th class="col-break">Score breakdown (volume / frequency / recency)</th>
+              <th class="num">Total value</th>
+              <th class="num">Txns</th>
+              <th>Last activity</th>
+            </tr>
+          </thead>
+          <tbody id="rankBody">
+            <tr><td colspan="7" class="muted center">No data yet — connect, then seed or submit a transaction.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+
+  <footer class="footer">
+    <span>Open API docs at <code id="docsLink">/docs</code> on your backend.</span>
+  </footer>
+
+  <!-- Optional: set a default backend URL at build/deploy time. -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
