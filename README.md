@@ -6,11 +6,11 @@ validation, idempotency (duplicate-request prevention), concurrency-safe and
 consistent data updates, a fair multi-factor ranking, and basic
 abuse/manipulation prevention.**
 
-> **Submission links** (fill these in before submitting)
-> - **GitHub repo:** `<your-repo-url>`
-> - **Live frontend:** `<your-frontend-url>`
-> - **Live backend (API docs):** `<your-backend-url>/docs`
-> - **Demo video (3–5 min):** `<your-video-url>`
+> **Submission links**
+> - **GitHub repo:** `https://github.com/Samyak-Waghmare/transaction-ranking-service`
+> - **Live frontend:** `https://thunderous-monstera-1bcbaf.netlify.app/`
+> - **Live backend (API docs):** `https://transaction-ranking-api-s8hj.onrender.com/docs`
+> - **Demo video (3–5 min):** `(Add video link here after recording)`
 
 ---
 
